@@ -1,6 +1,14 @@
 
 import React, { useEffect, useRef } from 'react';
 
+// Add type declarations for the Google Maps API
+declare global {
+  interface Window {
+    google: any;
+    initGoogleMap: () => void;
+  }
+}
+
 const GoogleMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   
@@ -12,8 +20,7 @@ const GoogleMap = () => {
       // Mumbai coordinates (approximate for Marine Drive)
       const location = { lat: 18.9442, lng: 72.8234 };
       
-      // @ts-ignore - Google Maps API is loaded via script tag
-      const map = new google.maps.Map(mapRef.current, {
+      const map = new window.google.maps.Map(mapRef.current, {
         center: location,
         zoom: 16,
         styles: [
@@ -36,12 +43,11 @@ const GoogleMap = () => {
       });
       
       // Add a marker for the clinic
-      // @ts-ignore - Google Maps API is loaded via script tag
-      new google.maps.Marker({
+      new window.google.maps.Marker({
         position: location,
         map: map,
         title: 'Dr. Huddar\'s Clinic',
-        animation: google.maps.Animation.DROP,
+        animation: window.google.maps.Animation.DROP,
       });
     };
     
