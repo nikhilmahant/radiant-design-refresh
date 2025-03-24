@@ -5,6 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "../hooks/use-toast";
+import PaymentModal from './PaymentModal';
 
 const timeSlots = [
   '9:00 AM', '10:00 AM', '11:00 AM', 
@@ -15,6 +16,8 @@ const timeSlots = [
 const Appointment = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -57,18 +60,8 @@ const Appointment = () => {
       return;
     }
 
-    // Format the date for display
-    const formattedDate = date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-
-    toast({
-      title: "Appointment Requested",
-      description: `Your appointment is requested for ${formattedDate} at ${selectedTime}.`,
-    });
+    // Open payment modal instead of showing toast
+    setIsPaymentModalOpen(true);
   };
 
   return (
@@ -133,19 +126,37 @@ const Appointment = () => {
                   ))}
                 </div>
                 
-                <Button
-                  className="w-full bg-blue-800 hover:bg-blue-700"
-                  onClick={handleBookAppointment}
-                  disabled={!date || !selectedTime}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  Book Appointment
-                </Button>
+                <div className="space-y-4">
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <p className="text-sm text-blue-800 font-medium">Consultation Fee: ₹1,500.00</p>
+                    <p className="text-xs text-gray-600">Payment required to confirm appointment</p>
+                  </div>
+                
+                  <Button
+                    className="w-full bg-blue-800 hover:bg-blue-700"
+                    onClick={handleBookAppointment}
+                    disabled={!date || !selectedTime}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    Book & Proceed to Payment
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
+      
+      {date && selectedTime && (
+        <PaymentModal
+          isOpen={isPaymentModalOpen}
+          onClose={() => setIsPaymentModalOpen(false)}
+          appointmentDetails={{
+            date: date,
+            time: selectedTime
+          }}
+        />
+      )}
     </section>
   );
 };

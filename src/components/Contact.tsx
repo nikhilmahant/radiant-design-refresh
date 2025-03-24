@@ -1,11 +1,13 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import GoogleMap from './GoogleMap';
 
 const Contact = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -16,6 +18,8 @@ const Contact = () => {
               entry.target.classList.add('animate-slide-right');
             } else if (entry.target === formRef.current) {
               entry.target.classList.add('animate-slide-left');
+            } else if (entry.target === mapRef.current) {
+              entry.target.classList.add('animate-fade-in');
             }
             entry.target.classList.remove('opacity-0');
             observer.unobserve(entry.target);
@@ -27,22 +31,31 @@ const Contact = () => {
 
     if (contentRef.current) observer.observe(contentRef.current);
     if (formRef.current) observer.observe(formRef.current);
+    if (mapRef.current) observer.observe(mapRef.current);
 
     return () => {
       if (contentRef.current) observer.unobserve(contentRef.current);
       if (formRef.current) observer.unobserve(formRef.current);
+      if (mapRef.current) observer.unobserve(mapRef.current);
     };
   }, []);
 
   return (
     <section ref={sectionRef} id="contact" className="py-20 px-4">
       <div className="container mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="text-center mb-16">
+          <h2 className="heading-lg mb-4 text-blue-800">Contact Us</h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Reach out to Dr. Huddar for consultations, inquiries, or to schedule an appointment.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
           <div 
             ref={contentRef}
             className="opacity-0"
           >
-            <h2 className="heading-lg mb-6 text-blue-800">Contact Information</h2>
+            <h2 className="heading-md mb-6 text-blue-800">Contact Information</h2>
             
             <div className="space-y-8">
               <div className="flex items-start gap-4">
@@ -131,6 +144,14 @@ const Contact = () => {
               </button>
             </div>
           </form>
+        </div>
+        
+        <div 
+          ref={mapRef} 
+          className="opacity-0 neo-card p-4 overflow-hidden"
+        >
+          <h3 className="text-xl font-semibold mb-4 text-blue-800 px-4">Find Us</h3>
+          <GoogleMap />
         </div>
       </div>
     </section>
