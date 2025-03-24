@@ -29,30 +29,22 @@ const Header = () => {
     >
       <div className="container mx-auto flex items-center justify-between px-4">
         <a href="/" className="flex items-center">
-          <span className="text-xl font-bold">Aesthetic</span>
+          <span className="text-xl font-bold text-blue-800">Dr. Sudheendra Huddar</span>
+          <span className="ml-2 text-sm text-gray-600">MBBS, DPM, MD (Psychiatry)</span>
         </a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          {['Products', 'Features', 'Pricing', 'About'].map((item) => (
+          {['about', 'expertise', 'experience', 'appointment', 'contact'].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`}
-              className="text-sm font-medium text-gray-800 link-underline"
+              className="text-sm font-medium text-gray-800 link-underline capitalize"
             >
               {item}
             </a>
           ))}
         </nav>
-
-        <div className="hidden md:block">
-          <a
-            href="#contact"
-            className="px-5 py-2.5 rounded-lg bg-black text-white text-sm font-medium transition-all hover:bg-gray-800"
-          >
-            Get Started
-          </a>
-        </div>
 
         {/* Mobile Menu Button */}
         <button 
@@ -68,23 +60,16 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-subtle animate-slide-down">
           <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-            {['Products', 'Features', 'Pricing', 'About'].map((item) => (
+            {['about', 'expertise', 'experience', 'appointment', 'contact'].map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase()}`}
-                className="text-sm font-medium text-gray-800 py-2"
+                className="text-sm font-medium text-gray-800 py-2 capitalize"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="px-5 py-2.5 rounded-lg bg-black text-white text-sm font-medium w-full text-center"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get Started
-            </a>
           </div>
         </div>
       )}

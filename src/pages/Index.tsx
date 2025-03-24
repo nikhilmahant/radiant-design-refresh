@@ -1,10 +1,10 @@
 
 import React, { useEffect } from 'react';
 import Header from '../components/Header';
-import Hero from '../components/Hero';
-import Features from '../components/Features';
-import Products from '../components/Products';
-import Testimonials from '../components/Testimonials';
+import About from '../components/About';
+import Expertise from '../components/Expertise';
+import Experience from '../components/Experience';
+import Appointment from '../components/Appointment';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -30,13 +30,13 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       <main>
-        <Hero />
-        <Features />
-        <Products />
-        <Testimonials />
+        <About />
+        <Expertise />
+        <Experience />
+        <Appointment />
         <Contact />
       </main>
       <Footer />
